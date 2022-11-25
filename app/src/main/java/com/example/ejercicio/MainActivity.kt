@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.ejercicio.core.domain.repository.MovieRepository
 import com.example.ejercicio.home.presentation.HomeScreen
 import com.example.ejercicio.ui.theme.Background
@@ -34,7 +37,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Background
                 ) {
-                    HomeScreen()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "HOME"){
+                        composable("HOME"){
+                            HomeScreen()
+                        }
+                    }
+
                     /*Greeting("Android")
 
                     lifecycleScope.launch {
