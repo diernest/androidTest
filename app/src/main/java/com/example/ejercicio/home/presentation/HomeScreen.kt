@@ -12,8 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ejercicio.R
-import com.example.ejercicio.home.presentation.components.HomeHeader
-import com.example.ejercicio.home.presentation.components.HomeMovieList
+import com.example.ejercicio.home.presentation.components.*
 
 @Composable
 fun HomeScreen(
@@ -36,12 +35,23 @@ fun HomeScreen(
                     posters = state.upcomingMovies.map { it.poster })
             }
         }
-        item{ Spacer(modifier = Modifier.height(26.dp))}
+        item { Spacer(modifier = Modifier.height(26.dp)) }
         if (state.popularMovies.isNotEmpty()) {
             item {
                 HomeMovieList(
                     title = stringResource(R.string.popular_movies),
                     posters = state.popularMovies.map { it.poster })
+            }
+        }
+        item {
+            HomeRecommended(
+                selectedFilter = state.selectedFilter,
+                onFilterClick = {
+                    viewModel.onEvent(HomeEvent.ChangeFilter(it))
+                },
+                movieList = state.filteredMovies
+            ) {
+
             }
         }
 

@@ -24,8 +24,7 @@ fun HomeMovieList(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(text = title, fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp, color = Color.White)
+        CategoryTitle(title = title)
         Spacer(modifier = Modifier.height(20.dp))
         LazyRow(modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),

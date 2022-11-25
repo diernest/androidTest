@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ejercicio.core.domain.repository.MovieRepository
+import com.example.ejercicio.home.presentation.components.HomeEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
@@ -33,7 +34,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getPopularMovies(){
+    fun onEvent(event: HomeEvent) {
+        when (event){
+            is HomeEvent.ChangeFilter -> {
+                state = state.copy(
+                    selectedFilter =  event.filterType
+                )
+            }
+            is HomeEvent.OnMovieClick -> {}
+        }
+    }
+
+    private suspend fun getPopularMovies() {
             repository.getPopularMovies().onSuccess {
                 state = state.copy(
                     popularMovies = it
