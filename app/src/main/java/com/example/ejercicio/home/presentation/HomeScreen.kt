@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ejercicio.R
+import com.example.ejercicio.home.presentation.components.HomeHeader
 import com.example.ejercicio.home.presentation.components.HomeMovieList
 
 @Composable
@@ -25,14 +26,7 @@ fun HomeScreen(
             .padding(start = 25.dp)
     ) {
         item {
-            Box(modifier = Modifier.fillMaxWidth().height(110.dp),
-            contentAlignment = Alignment.Center){
-                Image(
-                    painter = painterResource(id = R.drawable.logo_marca),
-                    contentDescription = stringResource(R.string.emovie),
-                    modifier = Modifier.padding(vertical = 30.dp)
-                )
-            }
+            HomeHeader()
         }
 
         if (state.upcomingMovies.isNotEmpty()) {
@@ -42,7 +36,7 @@ fun HomeScreen(
                     posters = state.upcomingMovies.map { it.poster })
             }
         }
-
+        item{ Spacer(modifier = Modifier.height(26.dp))}
         if (state.popularMovies.isNotEmpty()) {
             item {
                 HomeMovieList(
