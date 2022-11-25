@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.example.ejercicio.core.domain.repository.MovieRepository
 import com.example.ejercicio.home.presentation.HomeScreen
+import com.example.ejercicio.ui.theme.Background
 import com.example.ejercicio.ui.theme.EjercicioTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = Background
                 ) {
                     HomeScreen()
                     /*Greeting("Android")

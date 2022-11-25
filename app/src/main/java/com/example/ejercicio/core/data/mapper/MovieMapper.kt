@@ -11,7 +11,7 @@ fun MovieResult.toDomain() : Movie {
         releaseYear = this.releaseDate.substring(0,4).toInt(),
         language = this.originalLanguage,
         rating = this.voteAverage,
-        poster = MovieApi.BASE_URL + this.posterPath,
+        poster = MovieApi.BASE_IMAGE + this.posterPath,
         genres =  this.genreIds
     )
 }
