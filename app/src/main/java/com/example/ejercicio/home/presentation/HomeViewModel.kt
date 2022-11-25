@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    val repository: MovieRepository
+    private val repository: MovieRepository
 ) : ViewModel(){
     var state by mutableStateOf(HomeState())
         private set
@@ -20,13 +20,27 @@ class HomeViewModel @Inject constructor(
     init {
         state = state.copy(isLoading = true)
         getUpcomingMovies()
+        getPopularMovies()
+    }
+
+    private fun getPopularMovies(){
+        viewModelScope.launch {
+            repository.getPopularMovies().onSuccess {
+                state = state.copy(
+                    popularMovies = it
+                )
+            }.onFailure {
+
+            }
+            state = state.copy(isLoading = false)
+        }
     }
 
     private fun getUpcomingMovies(){
         viewModelScope.launch {
             repository.getUpcomingMovies().onSuccess {
                 state = state.copy(
-                    upcoming = it
+                    upcomingMovies = it
                 )
             }.onFailure {
 
