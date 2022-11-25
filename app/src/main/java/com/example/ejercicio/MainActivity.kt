@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.example.ejercicio.core.domain.repository.MovieRepository
+import com.example.ejercicio.home.presentation.HomeScreen
 import com.example.ejercicio.ui.theme.EjercicioTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,8 +21,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var repository: MovieRepository
+    /*@Inject
+    lateinit var repository: MovieRepository*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,28 +33,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    HomeScreen()
+                    /*Greeting("Android")
 
                     lifecycleScope.launch {
                         val movies = repository.getUpcomingMovies()
                         println(movies)
-                    }
+                    }*/
 
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    EjercicioTheme {
-        Greeting("Android")
     }
 }

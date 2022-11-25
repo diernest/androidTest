@@ -8,8 +8,17 @@ import com.example.ejercicio.core.domain.repository.MovieRepository
 class MovieRepositoryImp(
     val api: MovieApi
 ) : MovieRepository {
-    override suspend fun getUpcomingMovies(): List<Movie> {
-        return  api.getUpcomingMovies().results.map { it.toDomain() }
+    override suspend fun getUpcomingMovies(): Result<List<Movie>> {
+
+        return try {
+            val results = api.getUpcomingMovies().results
+            Result.success(results.map { it.toDomain() })
+        }catch (e: Exception){
+            Result.failure(e)
+        }
     }
+
+
+
 
 }
