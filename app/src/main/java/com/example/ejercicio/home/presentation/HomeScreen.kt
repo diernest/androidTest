@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ejercicio.R
@@ -35,7 +36,7 @@ fun HomeScreen(
             contentAlignment = Alignment.Center){
                 Image(
                     painter = painterResource(id = R.drawable.logo_marca),
-                    contentDescription = "Logo de aplicación",
+                    contentDescription = stringResource(R.string.emovie),
                     modifier = Modifier.padding(vertical = 30.dp)
                 )
             }
@@ -43,7 +44,8 @@ fun HomeScreen(
 
         if (state.upcoming.isNotEmpty()) {
             item {
-                HomeMovieList(title = "Próximos Estrenos",
+                HomeMovieList(
+                    title = stringResource(R.string.upcomming_releases),
                     posters = state.upcoming.map { it.poster })
             }
         }

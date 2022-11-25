@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ejercicio</string>
+    <string name="upcomming_releases">Próximos Estrenos</string>
+    <string name="emovie">Logo de aplicación</string>
 </resources>
