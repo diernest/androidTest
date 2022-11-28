@@ -43,6 +43,7 @@ fun HomeScreen(
                     posters = state.popularMovies.map { it.poster })
             }
         }
+        item { Spacer(modifier = Modifier.height(16.dp)) }
         item {
             HomeRecommended(
                 selectedFilter = state.selectedFilter,

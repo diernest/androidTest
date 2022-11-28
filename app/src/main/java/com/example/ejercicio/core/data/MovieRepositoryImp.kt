@@ -19,6 +19,16 @@ class MovieRepositoryImp(
         results.map { it.toDomain() }
     }
 
+    override suspend fun getMoviesByYear(year: Int) = resultOf {
+        val results = api.getMoviesByYear(year).results
+        results.map { it.toDomain() }
+    }
+
+    override suspend fun getMoviesByLanguage(language: String) = resultOf {
+        val results = api.getMoviesByLanguage(language).results
+        results.map { it.toDomain() }
+    }
+
     //Version anterior antes de usar ResultExtensions
     /*
     override suspend fun getUpcomingMovies(): Result<List<Movie>> {

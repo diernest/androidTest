@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ejercicio.core.domain.repository.MovieRepository
+import com.example.ejercicio.home.presentation.components.FilterType
 import com.example.ejercicio.home.presentation.components.HomeEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: MovieRepository
-) : ViewModel(){
+) : ViewModel() {
     var state by mutableStateOf(HomeState())
         private set
 
@@ -25,7 +26,8 @@ class HomeViewModel @Inject constructor(
             supervisorScope {
                 val upcoming = launch { getUpcomingMovies() }
                 val popular = launch { getPopularMovies() }
-                listOf(upcoming, popular).forEach {
+                val filtered = launch { getMoviesByFilter() }
+                listOf(upcoming, popular, filtered).forEach {
                     it.join()
                 }
                 state = state.copy(isLoading = false)
@@ -35,35 +37,54 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onEvent(event: HomeEvent) {
-        when (event){
+        when (event) {
             is HomeEvent.ChangeFilter -> {
-                state = state.copy(
-                    selectedFilter =  event.filterType
-                )
+                if (event.filterType != state.selectedFilter) {
+                    state = state.copy(
+                        selectedFilter = event.filterType
+                    )
+                    viewModelScope.launch {
+                        getMoviesByFilter()
+                    }
+                }
             }
             is HomeEvent.OnMovieClick -> {}
         }
     }
 
     private suspend fun getPopularMovies() {
-            repository.getPopularMovies().onSuccess {
-                state = state.copy(
-                    popularMovies = it
-                )
-            }.onFailure {
+        repository.getPopularMovies().onSuccess {
+            state = state.copy(
+                popularMovies = it
+            )
+        }.onFailure {
 
-            }
-            state = state.copy(isLoading = false)
+        }
+        state = state.copy(isLoading = false)
     }
 
-    private suspend fun getUpcomingMovies(){
-            repository.getUpcomingMovies().onSuccess {
-                state = state.copy(
-                    upcomingMovies = it
-                )
-            }.onFailure {
+    private suspend fun getUpcomingMovies() {
+        repository.getUpcomingMovies().onSuccess {
+            state = state.copy(
+                upcomingMovies = it
+            )
+        }.onFailure {
 
-            }
-            state = state.copy(isLoading = false)
+        }
+        state = state.copy(isLoading = false)
+    }
+
+    private suspend fun getMoviesByFilter() {
+        val result = when (state.selectedFilter) {
+            FilterType.SPANISH -> repository.getMoviesByLanguage(language = "es")
+            FilterType.NINETY_THREE -> repository.getMoviesByYear(year = 1993)
+        }
+        result.onSuccess {
+            state = state.copy(
+                filteredMovies = it
+            )
+        }.onFailure {
+
+        }
     }
 }
