@@ -27,19 +27,11 @@ fun HomeMovieList(
         CategoryTitle(title = title)
         Spacer(modifier = Modifier.height(20.dp))
         LazyRow(modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)){
+        //contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp))
+        {
             items(posters){
-                AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                    .data(it)
-                    .crossfade(true)
-                    .build(),
-                    contentDescription = "Poster",
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .size(width = 138.dp, height = 180.dp),
-                    contentScale = ContentScale.Crop
-                )
+                HomeMoviePoster(imageUrl = it, posterSize = HomeMoviePosterSize.SMALL)
             }
         }
     }

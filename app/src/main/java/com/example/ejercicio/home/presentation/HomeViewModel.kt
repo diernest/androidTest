@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
         }
         result.onSuccess {
             state = state.copy(
-                filteredMovies = it
+                filteredMovies = it.subList(0,6)
             )
         }.onFailure {
 
