@@ -9,6 +9,7 @@ import com.example.ejercicio.core.domain.repository.MovieRepository
 import com.example.ejercicio.home.presentation.components.FilterType
 import com.example.ejercicio.home.presentation.components.HomeEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
@@ -64,14 +65,19 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getUpcomingMovies() {
-        repository.getUpcomingMovies().onSuccess {
+        /*repository.getUpcomingMovies().onSuccess {
             state = state.copy(
                 upcomingMovies = it
             )
         }.onFailure {
 
         }
-        state = state.copy(isLoading = false)
+        state = state.copy(isLoading = false)*/
+        repository.getUpcomingMovies().collect {
+            state = state.copy(
+                upcomingMovies = it
+            )
+        }
     }
 
     private suspend fun getMoviesByFilter() {
@@ -81,7 +87,7 @@ class HomeViewModel @Inject constructor(
         }
         result.onSuccess {
             state = state.copy(
-                filteredMovies = it.subList(0,6)
+                filteredMovies = it.subList(0,6) //TODO, export to Use Case
             )
         }.onFailure {
 

@@ -1,5 +1,10 @@
 package com.example.ejercicio.core.di
 
+import android.app.Application
+import androidx.room.Database
+import androidx.room.Room
+import com.example.ejercicio.core.data.local.MovieDao
+import com.example.ejercicio.core.data.local.MovieDatabase
 import com.example.ejercicio.core.data.remote.MovieRepositoryImp
 import com.example.ejercicio.core.data.remote.dto.MovieApi
 import com.example.ejercicio.core.data.remote.interceptor.ApiKeyInterceptor
@@ -36,9 +41,22 @@ class CoreModule {
 
     @Singleton
     @Provides
+    fun provideDatabase(application: Application): MovieDatabase{
+        return Room.databaseBuilder(application, MovieDatabase::class.java, "movies_db").build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabaseDao(database: MovieDatabase): MovieDao{
+        return database.dao
+    }
+
+    @Singleton
+    @Provides
     fun provideRepository(
-        api: MovieApi
+        api: MovieApi,
+        dao: MovieDao
     ): MovieRepository{
-        return MovieRepositoryImp(api)
+        return MovieRepositoryImp(api, dao)
     }
 }

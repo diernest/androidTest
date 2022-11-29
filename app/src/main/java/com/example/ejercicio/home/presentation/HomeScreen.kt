@@ -25,18 +25,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-    /*LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 25.dp)
-    ) {
-
-
-
-
-        }
-
-    }*/
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
