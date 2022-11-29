@@ -54,12 +54,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getPopularMovies() {
-        repository.getPopularMovies().onSuccess {
+        repository.getPopularMovies().collect {
             state = state.copy(
                 popularMovies = it
             )
-        }.onFailure {
-
         }
         state = state.copy(isLoading = false)
     }
@@ -85,12 +83,13 @@ class HomeViewModel @Inject constructor(
             FilterType.SPANISH -> repository.getMoviesByLanguage(language = "es")
             FilterType.NINETY_THREE -> repository.getMoviesByYear(year = 1993)
         }
-        result.onSuccess {
-            state = state.copy(
-                filteredMovies = it.subList(0,6) //TODO, export to Use Case
-            )
-        }.onFailure {
 
+        result.collect() {
+            if (it.isNotEmpty()) {
+                state = state.copy(
+                    filteredMovies = it.subList(0, 6) //TODO, export to Use Case
+                )
+            }
         }
     }
 }
